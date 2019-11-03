@@ -42,26 +42,26 @@ import SwiftUI
  */
 @available(iOS 13.0, OSX 10.15, *)
 @_functionBuilder
-internal struct PagesBuilder {
+public struct PagesBuilder {
 
 
-    static func buildBlock<C0: View>(
+    public static func buildBlock<C0: View>(
         _ c0: C0) -> [AnyView] {
         [AnyView(c0)]
     }
 
-    static func buildBlock<C0: View, C1: View>(_ c0: C0, _ c1: C1) -> [AnyView] {
+    public static func buildBlock<C0: View, C1: View>(_ c0: C0, _ c1: C1) -> [AnyView] {
         [AnyView(c0), AnyView(c1)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2) -> [AnyView] {
         [AnyView(c0), AnyView(c1), AnyView(c2)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -69,7 +69,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -78,7 +78,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3), AnyView(c4)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -88,7 +88,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3), AnyView(c4), AnyView(c5)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -99,7 +99,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3), AnyView(c4), AnyView(c5), AnyView(c6)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -111,7 +111,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3), AnyView(c4), AnyView(c5), AnyView(c6), AnyView(c7)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
@@ -124,7 +124,7 @@ internal struct PagesBuilder {
         [AnyView(c0), AnyView(c1), AnyView(c2), AnyView(c3), AnyView(c4), AnyView(c5), AnyView(c6), AnyView(c7), AnyView(c8)]
     }
 
-    static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View, C9: View>(
+    public static func buildBlock<C0: View, C1: View, C2: View, C3: View, C4: View, C5: View, C6: View, C7: View, C8: View, C9: View>(
         _ c0: C0,
         _ c1: C1,
         _ c2: C2,
