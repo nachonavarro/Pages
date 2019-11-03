@@ -1,3 +1,3 @@
-# ExamplePackage
+# Pages
 
-A description of this package.
+A lightweight, elegant paging view for SwiftUI  📖
