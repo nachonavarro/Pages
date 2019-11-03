@@ -51,7 +51,7 @@ public struct SPages: View {
        - Parameters:
            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
-    init(@PagesBuilder pages: () -> [AnyView]) {
+    public init(@PagesBuilder pages: () -> [AnyView]) {
         self.pages = pages()
         self.pg = PageGeometry(numPages: self.pages.count)
     }
