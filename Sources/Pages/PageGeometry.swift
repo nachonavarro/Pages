@@ -110,6 +110,7 @@ internal struct WidthPreferenceKey: PreferenceKey {
 }
 
 /// A view that reads the width of the child.
+@available(iOS 13.0, OSX 10.15, *)
 internal struct WidthReader<Content: View> : View {
 
     var content: (CGFloat)->Content
