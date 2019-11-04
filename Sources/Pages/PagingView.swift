@@ -48,8 +48,8 @@ internal struct PagingView<P>: View where P: View {
                 `ModelPages` or `Pages`.
      - Note: This class can be seen as a helper class and not intended for the user.
      */
-    init(bounce: Bool, numPages: Int, @ViewBuilder pages: @escaping (CGFloat) -> P) {
-        self.pg = PageGeometry(bounce: bounce, numPages: numPages)
+    init(bounce: Bool, alignment: Alignment, numPages: Int, @ViewBuilder pages: @escaping (CGFloat) -> P) {
+        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: numPages)
         self.pages = pages
     }
 
