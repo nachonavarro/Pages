@@ -35,7 +35,7 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 internal struct PagingView<P>: View where P: View {
 
-    var pages: P
+    var pages: (CGFloat) -> P
     @ObservedObject private var pg: PageGeometry
 
     /**
@@ -44,32 +44,35 @@ internal struct PagingView<P>: View where P: View {
      - Parameters:
         - alignment: How to align the content of each page. Defaults to `.center`.
         - numPages: Number of pages on the paging view.
-        - pages: The `HStack` that contains all the pages. This will be supplied by
-                `ModelPages` or `Spages`.
+        - pages: A function that outputs the view with all the pages. This will be supplied by
+                `ModelPages` or `Pages`.
      - Note: This class can be seen as a helper class and not intended for the user.
      */
-    init(bounce: Bool, numPages: Int, @ViewBuilder pages: () -> P) {
+    init(bounce: Bool, numPages: Int, @ViewBuilder pages: @escaping (CGFloat) -> P) {
         self.pg = PageGeometry(bounce: bounce, numPages: numPages)
-        self.pages = pages()
+        self.pages = pages
     }
 
     var body: some View {
-        GeometryReader { geometry in
+        WidthReader { width in
             ScrollView(.horizontal, showsIndicators: false) {
-                self.pages
+                HStack(spacing: 0) {
+                    self.pages(width)
+                }
             }
             .content.offset(x: self.pg.pageOffset)
-            .frame(width: geometry.size.width, alignment: .leading)
+            .frame(width: width, alignment: .leading)
             .gesture(
                 DragGesture()
                     .onChanged { self.pg.onChangePage(offset: $0.translation.width) }
                     .onEnded { self.pg.onEndPage(offset: $0.predictedEndTranslation.width) }
             )
-            .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
+            .preference(key: WidthPreferenceKey.self, value: width)
             .onPreferenceChange(WidthPreferenceKey.self) {
                 self.pg.pageWidth = $0
             }
         }
+        .clipped()
     }
 
 }

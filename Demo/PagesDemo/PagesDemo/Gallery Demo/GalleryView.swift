@@ -11,8 +11,12 @@ import Pages
 
 struct GalleryView: View {
     var body: some View {
-        ModelPages(["a", "b", "c"]) { i, letter in
-            Text(letter)
+        VStack {
+            Text("My Art Collection")
+                .font(.largeTitle)
+            ModelPages(["a", "b", "c"]) { i, letter in
+                Text(letter)
+            }
         }
     }
 }

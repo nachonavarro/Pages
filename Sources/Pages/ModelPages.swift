@@ -70,15 +70,11 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     }
 
     public var body: some View {
-        GeometryReader { geometry in
-            PagingView(bounce: self.bounce, numPages: self.items.count) {
-                HStack(spacing: 0) {
-                    ForEach(0..<self.items.count) { i in
-                        self.template(i, self.items[i])
-                            .frame(width: geometry.size.width, alignment: self.alignment)
-                    }
-                }
-            }.clipped()
+        PagingView(bounce: self.bounce, numPages: self.items.count) { width in
+            ForEach(0..<self.items.count) { i in
+                self.template(i, self.items[i])
+                    .frame(width: width, alignment: self.alignment)
+            }
         }
     }
 

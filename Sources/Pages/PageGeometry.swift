@@ -100,23 +100,33 @@ internal class PageGeometry: ObservableObject {
 }
 
 /// The preference key for storing a view's width.
-struct WidthPreferenceKey: PreferenceKey {
+internal struct WidthPreferenceKey: PreferenceKey {
     typealias Value = CGFloat
     static var defaultValue = CGFloat(0)
 
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
+        value = max(value, nextValue())
     }
 }
 
-/// A background transparent view used along preference keys to store the width of the view.
-@available(iOS 13.0, OSX 10.15, *)
-struct WidthGeometry: View {
+/// A view that reads the width of the child.
+internal struct WidthReader<Content: View> : View {
+
+    var content: (CGFloat)->Content
+    @State private var width: CGFloat = 0
+
+    init(@ViewBuilder content: @escaping (CGFloat)->Content) {
+        self.content = content
+    }
+
     var body: some View {
-        GeometryReader { geometry in
-            return Rectangle()
-                .foregroundColor(.clear)
-                .preference(key: WidthPreferenceKey.self, value: geometry.size.width)
-        }
+        content(width)
+            .frame(minWidth: 0, maxWidth: .infinity)
+            .background(GeometryReader { geometry in
+                Color.clear.preference(key: WidthPreferenceKey.self, value: geometry.size.width)
+            })
+            .onPreferenceChange(WidthPreferenceKey.self) { width in
+                self.width = width
+            }
     }
 }
