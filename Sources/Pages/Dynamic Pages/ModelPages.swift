@@ -55,12 +55,14 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         ```
 
         - Parameters:
+            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
             - alignment: How to align the content of each page. Defaults to `.center`.
             - items: The collection of data that will drive page creation.
             - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
         - Note: Each item in `items` has to conform to the `Identifiable` protocol.
      */
-    public init(_ items: Data, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
+    public init(_ items: Data,  bounce: Bool = true, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
+        self.bounce = bounce
         self.alignment = alignment
         self.items = items.map { $0 }
         self.template = template
@@ -68,14 +70,14 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
 
     public var body: some View {
         GeometryReader { geometry in
-            PagingView(numPages: self.items.count) {
+            PagingView(bounce: self.bounce, numPages: self.items.count) {
                 HStack(spacing: 0) {
                     ForEach(0..<self.items.count) { i in
                         self.template(i, self.items[i])
                             .frame(width: geometry.size.width, alignment: self.alignment)
                     }
                 }
-            }
+            }.clipped()
         }
     }
 

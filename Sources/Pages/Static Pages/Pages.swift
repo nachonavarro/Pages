@@ -29,6 +29,7 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 public struct Pages: View {
 
+    var bounce: Bool
     var alignment: Alignment
     var pages: [AnyView]
 
@@ -49,10 +50,12 @@ public struct Pages: View {
        ```
 
        - Parameters:
-           - alignment: How to align the content of each page. Defaults to `.center`.
-           - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
+            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
+            - alignment: How to align the content of each page. Defaults to `.center`.
+            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
-    public init(alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
+    public init(bounce: Bool = true, alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
+        self.bounce = bounce
         self.alignment = alignment
         self.pages = pages()
     }
@@ -66,7 +69,7 @@ public struct Pages: View {
                             .frame(width: geometry.size.width, alignment: self.alignment)
                     }
                 }
-            }
+            }.clipped()
         }
     }
 

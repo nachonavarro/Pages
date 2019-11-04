@@ -11,12 +11,15 @@ import Pages
 
 struct OnboardingView: View {
     var body: some View {
-        Pages {
-            WelcomePage(background: "avenue")
-            WelcomePage(background: "elephant")
-            WelcomePage(background: "nature")
-        }
-        .background(Color.blue)
+        VStack {
+            Pages(alignment: .leading) {
+                WelcomePage(background: "avenue")
+                    .border(Color.blue, width: 3)
+                WelcomePage(background: "elephant")
+                WelcomePage(background: "nature")
+            }
+            .border(Color.red, width: 2)
+        }.padding(100)
     }
 }
 
@@ -28,6 +31,7 @@ struct WelcomePage: View {
         VStack(alignment: .leading) {
             Text("Hi")
         }
+        .border(Color.blue)
     }
 }
 
