@@ -3,7 +3,7 @@ import SwiftUI
 @testable import Pages
 
 @available(iOS 13.0, OSX 10.15, *)
-final class DPagesTests: XCTestCase {
+final class ModelPagesTests: XCTestCase {
 
     struct Car: Identifiable {
         var id = UUID()
@@ -13,10 +13,10 @@ final class DPagesTests: XCTestCase {
     let cars = [Car(model: "Ford"), Car(model: "Ferrari")]
 
     func testDynamicPagesCount() {
-        let dPages = DPages(cars) { i, car in
+        let modelPages = ModelPages(cars) { i, car in
             Text("Car model: \(car.model)")
         }
-        XCTAssertEqual(dPages.items.count, cars.count)
+        XCTAssertEqual(modelPages.items.count, cars.count)
     }
     
 }

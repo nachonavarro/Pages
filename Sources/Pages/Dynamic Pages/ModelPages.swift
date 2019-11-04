@@ -27,17 +27,16 @@ import SwiftUI
 
 /// A paging view that generates pages dynamically based on some user-defined data.
 @available(iOS 13.0, OSX 10.15, *)
-public struct DPages<Data, Content>: View where Data: RandomAccessCollection, Content: View, Data.Element: Identifiable {
+public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View, Data.Element: Identifiable {
 
-    @ObservedObject private var pg: PageGeometry
-
+    var alignment: Alignment
     var items: [Data.Element]
     private var template: (Int, Data.Element) -> Content
 
     /**
      Creates the paging view that generates pages dynamically based on some user-defined data.
 
-     `DPages` can be used as follows:
+     `ModelPages` can be used as follows:
         ```
             struct Car: Identifiable {
                 var id = UUID()
@@ -48,7 +47,7 @@ public struct DPages<Data, Content>: View where Data: RandomAccessCollection, Co
                 let cars = [Car(model: "Ford"), Car(model: "Ferrari")
 
                 var body: some View {
-                    DPages(self.cars) { i, car in
+                    ModelPages(self.cars) { i, car in
                         Text("Car is \(car.model)!")
                     }
                 }
@@ -56,23 +55,24 @@ public struct DPages<Data, Content>: View where Data: RandomAccessCollection, Co
         ```
 
         - Parameters:
+            - alignment: How to align the content of each page. Defaults to `.center`.
             - items: The collection of data that will drive page creation.
             - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
         - Note: Each item in `items` has to conform to the `Identifiable` protocol.
      */
-    public init(_ items: Data, template: @escaping (Int, Data.Element) -> Content) {
+    public init(_ items: Data, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
+        self.alignment = alignment
         self.items = items.map { $0 }
         self.template = template
-        self.pg = PageGeometry(numPages: self.items.count)
     }
 
     public var body: some View {
         GeometryReader { geometry in
-            Pages(numPages: self.items.count) {
+            PagingView(numPages: self.items.count) {
                 HStack(spacing: 0) {
                     ForEach(0..<self.items.count) { i in
                         self.template(i, self.items[i])
-                            .frame(width: geometry.size.width)
+                            .frame(width: geometry.size.width, alignment: self.alignment)
                     }
                 }
             }

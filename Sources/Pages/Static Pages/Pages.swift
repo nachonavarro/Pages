@@ -1,5 +1,5 @@
 //
-//  SPages.swift
+//  Pages.swift
 //  Pages
 //
 //  Created by Nacho Navarro on 03/11/2019.
@@ -27,19 +27,19 @@ import SwiftUI
 
 /// A paging view that generates user-defined static pages.
 @available(iOS 13.0, OSX 10.15, *)
-public struct SPages: View {
+public struct Pages: View {
 
+    var alignment: Alignment
     var pages: [AnyView]
-    @ObservedObject private var pg: PageGeometry
 
     /**
     Creates the paging view that generates user-defined static pages.
 
-    `SPages` can be used as follows:
+    `Pages` can be used as follows:
        ```
            struct WelcomeView: View {
                var body: some View {
-                   SPages {
+                   Pages {
                         Text("Welcome! This is Page 1")
                         Text("This is Page 2")
                         Text("...and this is Page 3")
@@ -49,20 +49,21 @@ public struct SPages: View {
        ```
 
        - Parameters:
+           - alignment: How to align the content of each page. Defaults to `.center`.
            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
-    public init(@PagesBuilder pages: () -> [AnyView]) {
+    public init(alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
+        self.alignment = alignment
         self.pages = pages()
-        self.pg = PageGeometry(numPages: self.pages.count)
     }
 
     public var body: some View {
         GeometryReader { geometry in
-            Pages(numPages: self.pages.count) {
+            PagingView(numPages: self.pages.count) {
                 HStack(spacing: 0) {
                     ForEach(0..<self.pages.count) { i in
                         self.pages[i]
-                            .frame(width: geometry.size.width)
+                            .frame(width: geometry.size.width, alignment: self.alignment)
                     }
                 }
             }

@@ -1,5 +1,5 @@
 //
-//  Pages.swift
+//  PagingView.swift
 //  Pages
 //
 //  Created by Nacho Navarro on 03/11/2019.
@@ -33,7 +33,7 @@ import SwiftUI
  preference keys and used on the `PageGeometry` to calculate offsets.
  */
 @available(iOS 13.0, OSX 10.15, *)
-internal struct Pages<P>: View where P: View {
+internal struct PagingView<P>: View where P: View {
 
     var pages: P
     @ObservedObject private var pg: PageGeometry
@@ -42,12 +42,13 @@ internal struct Pages<P>: View where P: View {
     Creates the  base class that describes a paging view and its behavior.
 
      - Parameters:
+        - alignment: How to align the content of each page. Defaults to `.center`.
         - numPages: Number of pages on the paging view.
         - pages: The `HStack` that contains all the pages. This will be supplied by
-                `DPages` or `Spages`.
+                `ModelPages` or `Spages`.
      - Note: This class can be seen as a helper class and not intended for the user.
      */
-    init(numPages: Int, @ViewBuilder pages: () -> P) {
+    init(alignment: Alignment = .center, numPages: Int, @ViewBuilder pages: () -> P) {
         self.pg = PageGeometry(numPages: numPages)
         self.pages = pages()
     }

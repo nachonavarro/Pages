@@ -27,7 +27,7 @@ import Foundation
 import SwiftUI
 
 /**
- A function builder that captures each direct child of `SPages` and adds it to a list.
+ A function builder that captures each direct child of `Pages` and adds it to a list.
 
  This implementation tries to mimic that of `ViewBuilder`. I highly recommed taking a look
  at the public interface of `ViewBuilder` to get a sense of how SwiftUI implements it. In their
