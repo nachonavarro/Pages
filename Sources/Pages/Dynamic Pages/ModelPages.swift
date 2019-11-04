@@ -27,7 +27,7 @@ import SwiftUI
 
 /// A paging view that generates pages dynamically based on some user-defined data.
 @available(iOS 13.0, OSX 10.15, *)
-public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View, Data.Element: Identifiable {
+public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
     var bounce: Bool
     var alignment: Alignment
