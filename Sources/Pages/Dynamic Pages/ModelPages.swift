@@ -29,6 +29,7 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View, Data.Element: Identifiable {
 
+    var bounce: Bool
     var alignment: Alignment
     var items: [Data.Element]
     private var template: (Int, Data.Element) -> Content

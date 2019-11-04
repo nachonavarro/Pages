@@ -62,7 +62,7 @@ public struct Pages: View {
 
     public var body: some View {
         GeometryReader { geometry in
-            PagingView(numPages: self.pages.count) {
+            PagingView(bounce: self.bounce, numPages: self.pages.count) {
                 HStack(spacing: 0) {
                     ForEach(0..<self.pages.count) { i in
                         self.pages[i]

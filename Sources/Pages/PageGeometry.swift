@@ -34,20 +34,29 @@ internal class PageGeometry: ObservableObject {
     @Published var pageOffset: CGFloat = 0
     @Published var index: Int = 0
 
+    private var bounce: Bool
     private var numPages: Int = 0
 
     /**
     Creates the observable object that will determine offsets for the scroll view's content.
 
      - Parameters:
+        - bounce: Whether to bounce back when a user tries to scroll past all the pages.
         - numPages: The number of pages on the paging view.
      */
-    init(numPages: Int) {
+    init(bounce: Bool, numPages: Int) {
+        self.bounce = bounce
         self.numPages = numPages
     }
 
     func onChangePage(offset: CGFloat) {
-        self.pageOffset = -CGFloat(index) * self.pageWidth + offset
+        if self.bounce {
+            self.pageOffset = -CGFloat(index) * self.pageWidth + offset
+        } else {
+            self.pageOffset = keepWithin(min: -CGFloat(self.numPages - 1) * self.pageWidth, max: 0) {
+                -CGFloat(self.index) * self.pageWidth + offset
+            }
+        }
     }
 
     func onEndPage(offset: CGFloat) {
