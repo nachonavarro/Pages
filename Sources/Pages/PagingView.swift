@@ -58,10 +58,12 @@ internal struct PagingView<P>: View where P: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
                     self.pages(width)
+                        .frame(width: width, alignment: self.pg.alignment)
                 }
             }
             .content.offset(x: self.pg.pageOffset)
             .frame(width: width, alignment: .leading)
+            .contentShape(Rectangle()) // needed so drag gesture is only recognized within the page
             .gesture(
                 DragGesture()
                     .onChanged { self.pg.onChangePage(offset: $0.translation.width) }

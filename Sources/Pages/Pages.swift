@@ -64,7 +64,6 @@ public struct Pages: View {
         PagingView(bounce: self.bounce, alignment: self.alignment, numPages: self.pages.count) { width in
             ForEach(0..<self.pages.count) { i in
                 self.pages[i]
-                    .frame(width: width, alignment: self.alignment)
             }
         }
     }
