@@ -25,7 +25,13 @@ Using Pages is as easy as:
 
 ```Swift
   Pages {
-    Text("A page here")
-    Text("And a page there")
+    Text("A page here...")           // First page
+    Text("...and a page there")      // Second page
+    Circle()                         // Third page
+      .frame(width: 50, height: 50)
+    HStack {                         // Fourth page
+      Text("Two texts side by side")
+      Text("On the fourth page")
+    }
   }
 ```
