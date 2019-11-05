@@ -54,7 +54,7 @@ internal struct PagingView<P>: View where P: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
+            HStack(alignment: self.pg.alignment.vertical, spacing: self.pg.spacing) {
                 self.pages
             }.padding(self.pg.insets)
         }
