@@ -57,7 +57,7 @@ internal struct PagingView<P>: View where P: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
                     self.pages
-                }
+                }.frame(width: width, alignment: .leading)
             }
             .content.offset(x: self.pg.pageOffset)
             .frame(width: width, alignment: .leading)
