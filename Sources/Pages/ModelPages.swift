@@ -61,10 +61,10 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
             - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
         - Note: Each item in `items` has to conform to the `Identifiable` protocol.
      */
-    public init(_ items: Data,  bounce: Bool = true, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
+    public init(_ items: Data, insets: EdgeInsets = EdgeInsets(), bounce: Bool = true, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
         self.items = items.map { $0 }
         self.template = template
-        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: self.items.count)
+        self.pg = PageGeometry(insets: insets, bounce: bounce, alignment: alignment, numPages: self.items.count)
     }
 
     public var body: some View {

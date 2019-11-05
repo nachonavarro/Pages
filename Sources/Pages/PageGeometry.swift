@@ -34,6 +34,7 @@ internal class PageGeometry: ObservableObject {
     @Published var pageOffset: CGFloat = 0
     @Published var index: Int = 0
 
+    var insets: EdgeInsets
     var alignment: Alignment
     private var bounce: Bool
     private var numPages: Int = 0
@@ -45,7 +46,8 @@ internal class PageGeometry: ObservableObject {
         - bounce: Whether to bounce back when a user tries to scroll past all the pages.
         - numPages: The number of pages on the paging view.
      */
-    init(bounce: Bool, alignment: Alignment, numPages: Int) {
+    init(insets: EdgeInsets, bounce: Bool, alignment: Alignment, numPages: Int) {
+        self.insets = insets
         self.bounce = bounce
         self.alignment = alignment
         self.numPages = numPages

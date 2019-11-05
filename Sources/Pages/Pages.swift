@@ -53,9 +53,9 @@ public struct Pages: View {
             - alignment: How to align the content of each page. Defaults to `.center`.
             - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
-    public init(bounce: Bool = true, alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
+    public init(insets: EdgeInsets = EdgeInsets(), bounce: Bool = true, alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
         self.pages = pages()
-        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: self.pages.count)
+        self.pg = PageGeometry(insets: insets, bounce: bounce, alignment: alignment, numPages: self.pages.count)
     }
 
     public var body: some View {
