@@ -124,7 +124,6 @@ internal struct WidthReader<Content: View> : View {
 
     var body: some View {
         content(width)
-            .frame(minWidth: 0, maxWidth: .infinity)
             .background(GeometryReader { geometry in
                 Color.clear.preference(key: WidthPreferenceKey.self, value: geometry.size.width)
             })

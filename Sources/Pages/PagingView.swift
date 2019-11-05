@@ -53,21 +53,19 @@ internal struct PagingView<P>: View where P: View {
     }
 
     var body: some View {
-        WidthReader { width in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
-                    self.pages.frame(width: width, alignment: .leading)
-                }.frame(width: width, alignment: .leading)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
+                self.pages
             }
-            .content.offset(x: self.pg.pageOffset)
-            .frame(width: width, alignment: .leading)
-            .contentShape(Rectangle()) // needed so drag gesture is only recognized within the page
-            .gesture(
-                DragGesture()
-                    .onChanged { self.pg.onChangePage(offset: $0.translation.width) }
-                    .onEnded { self.pg.onEndPage(offset: $0.predictedEndTranslation.width) }
-            )
         }
+        .content.offset(x: self.pg.pageOffset)
+        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle()) // needed so drag gesture is only recognized within the page
+        .gesture(
+            DragGesture()
+                .onChanged { self.pg.onChangePage(offset: $0.translation.width) }
+                .onEnded { self.pg.onEndPage(offset: $0.predictedEndTranslation.width) }
+        )
         .clipped()
     }
 
