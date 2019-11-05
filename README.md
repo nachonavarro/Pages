@@ -35,7 +35,7 @@ Using Pages is as easy as:
   }
 ```
 
-One can also use Pages for dynamic content:
+One can also use Pages with dynamic content:
 
 ```Swift
   struct Car {
