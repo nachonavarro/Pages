@@ -66,7 +66,7 @@ public struct Pages: View {
                         .preference(key: WidthPreferenceKey.self, value: width)
                         .onPreferenceChange(WidthPreferenceKey.self) {
                             self.pg.pageWidth = $0
-                    }
+                        }
                 }
             }
         }
