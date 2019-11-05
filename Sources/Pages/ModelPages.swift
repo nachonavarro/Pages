@@ -29,8 +29,7 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
-    var bounce: Bool
-    var alignment: Alignment
+    var pg: PageGeometry
     var items: [Data.Element]
     private var template: (Int, Data.Element) -> Content
 
@@ -63,16 +62,21 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         - Note: Each item in `items` has to conform to the `Identifiable` protocol.
      */
     public init(_ items: Data,  bounce: Bool = true, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
-        self.bounce = bounce
-        self.alignment = alignment
         self.items = items.map { $0 }
         self.template = template
+        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: self.items.count)
     }
 
     public var body: some View {
-        PagingView(bounce: self.bounce, alignment: self.alignment, numPages: self.items.count) { width in
+        PagingView(self.pg) {
             ForEach(0..<self.items.count) { i in
-                self.template(i, self.items[i])
+                WidthReader { width in
+                    self.template(i, self.items[i])
+                        .preference(key: WidthPreferenceKey.self, value: width)
+                        .onPreferenceChange(WidthPreferenceKey.self) {
+                            self.pg.pageWidth = $0
+                        }
+                }
             }
         }
     }

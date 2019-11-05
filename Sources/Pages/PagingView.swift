@@ -35,30 +35,28 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 internal struct PagingView<P>: View where P: View {
 
-    var pages: (CGFloat) -> P
+    var pages: P
     @ObservedObject private var pg: PageGeometry
 
     /**
     Creates the  base class that describes a paging view and its behavior.
 
      - Parameters:
-        - alignment: How to align the content of each page. Defaults to `.center`.
-        - numPages: Number of pages on the paging view.
+        - pg: The `PageGeometry` class that is created in `Pages`.
         - pages: A function that outputs the view with all the pages. This will be supplied by
                 `ModelPages` or `Pages`.
      - Note: This class can be seen as a helper class and not intended for the user.
      */
-    init(bounce: Bool, alignment: Alignment, numPages: Int, @ViewBuilder pages: @escaping (CGFloat) -> P) {
-        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: numPages)
-        self.pages = pages
+    init(_ pg: PageGeometry, @ViewBuilder pages: () -> P) {
+        self.pg = pg
+        self.pages = pages()
     }
 
     var body: some View {
         WidthReader { width in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: self.pg.alignment.vertical, spacing: 0) {
-                    self.pages(width)
-                        .frame(width: width, alignment: self.pg.alignment)
+                    self.pages.frame(width: 250)
                 }
             }
             .content.offset(x: self.pg.pageOffset)
@@ -69,10 +67,6 @@ internal struct PagingView<P>: View where P: View {
                     .onChanged { self.pg.onChangePage(offset: $0.translation.width) }
                     .onEnded { self.pg.onEndPage(offset: $0.predictedEndTranslation.width) }
             )
-            .preference(key: WidthPreferenceKey.self, value: width)
-            .onPreferenceChange(WidthPreferenceKey.self) {
-                self.pg.pageWidth = $0
-            }
         }
         .clipped()
     }

@@ -29,8 +29,7 @@ import SwiftUI
 @available(iOS 13.0, OSX 10.15, *)
 public struct Pages: View {
 
-    var bounce: Bool
-    var alignment: Alignment
+    var pg: PageGeometry
     var pages: [AnyView]
 
     /**
@@ -55,15 +54,20 @@ public struct Pages: View {
             - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
     public init(bounce: Bool = true, alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
-        self.bounce = bounce
-        self.alignment = alignment
         self.pages = pages()
+        self.pg = PageGeometry(bounce: bounce, alignment: alignment, numPages: self.pages.count)
     }
 
     public var body: some View {
-        PagingView(bounce: self.bounce, alignment: self.alignment, numPages: self.pages.count) { width in
+        PagingView(self.pg) {
             ForEach(0..<self.pages.count) { i in
-                self.pages[i]
+                WidthReader { width in
+                    self.pages[i]
+                        .preference(key: WidthPreferenceKey.self, value: width)
+                        .onPreferenceChange(WidthPreferenceKey.self) {
+                            self.pg.pageWidth = $0
+                    }
+                }
             }
         }
     }

@@ -82,7 +82,6 @@ internal class PageGeometry: ObservableObject {
         - min: The minimum value considered. Anything below that will default to `min`.
         - max: The maximum value considered. Anything above that will default to `max`.
         - operation: The operation to perform
-     - Returns: The operation within the bounds.
 
     Example:
         ```
