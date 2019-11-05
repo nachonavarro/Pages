@@ -1,8 +1,6 @@
-# Pages
-
-A lightweight, elegant paging view for SwiftUI  📖
-
-## Demo
+<p align="center">
+  <img src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/banner.png" width="238" height="58" />
+</p>
 
 <p align="middle">
   <img src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/art-demo.gif" data-canonical-src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/art-demo.gif" width="200"/>
