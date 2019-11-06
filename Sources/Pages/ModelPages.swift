@@ -70,13 +70,16 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     public var body: some View {
         PagingView(self.pg) {
             ForEach(0..<self.items.count) { i in
-                WidthReader { width in
-                    self.template(i, self.items[i])
-                        .preference(key: WidthPreferenceKey.self, value: width)
-                        .onPreferenceChange(WidthPreferenceKey.self) {
-                            self.pg.pageWidth = $0
+                self.template(i, self.items[i])
+                    .anchorPreference(key: WidthPreferenceKey.self, value: .bounds) {
+                       [$0]
+                    }
+                    .backgroundPreferenceValue(WidthPreferenceKey.self) { p in
+                        return GeometryReader { geometry -> Color in
+                            self.pg.pageWidth = geometry[p.last!].size.width
+                            return Color.clear
                         }
-                }
+                    }
             }
         }
     }

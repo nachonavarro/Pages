@@ -61,13 +61,16 @@ public struct Pages: View {
     public var body: some View {
         PagingView(self.pg) {
             ForEach(0..<self.pages.count) { i in
-                WidthReader { width in
-                    self.pages[i]
-                        .preference(key: WidthPreferenceKey.self, value: width)
-                        .onPreferenceChange(WidthPreferenceKey.self) {
-                            self.pg.pageWidth = $0
+                self.pages[i]
+                    .anchorPreference(key: WidthPreferenceKey.self, value: .bounds) {
+                       [$0]
+                    }
+                    .backgroundPreferenceValue(WidthPreferenceKey.self) { p in
+                        return GeometryReader { geometry -> Color in
+                            self.pg.pageWidth = geometry[p.last!].size.width
+                            return Color.clear
                         }
-                }
+                    }
             }
         }
     }
