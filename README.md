@@ -13,7 +13,7 @@
         
   <img src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/onboarding-demo.gif" data-canonical-src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/onboarding-demo.gif" width="200"/>
   
-  <img src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/shapes-demo.gif" data-canonical-src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/shapes-demo.gif" width="200"/>
+  <img src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/facebook-preview.gif" data-canonical-src="https://github.com/nachonavarro/PagesDemo/blob/master/Screenshots/facebook-preview.gif" width="200"/>
 </p>
 
 ## Getting Started
