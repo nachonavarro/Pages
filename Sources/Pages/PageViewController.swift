@@ -94,6 +94,7 @@ class PagesCoordinator: NSObject, UIPageViewControllerDataSource,
     }
 }
 
+@available(iOS 13.0, *)
 extension PagesCoordinator: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
