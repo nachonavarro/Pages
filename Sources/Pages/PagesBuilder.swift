@@ -40,7 +40,7 @@ import SwiftUI
  SwiftUI does the same. Further information
  [here](https://forums.swift.org/t/function-builders/25167) and [here](https://github.com/apple/swift-evolution/blob/9992cf3c11c2d5e0ea20bee98657d93902d5b174/proposals/XXXX-function-builders.md).
  */
-@available(iOS 13.0, OSX 10.15, *)
+@available(iOS 13.0, *)
 @_functionBuilder
 public struct PagesBuilder {
 

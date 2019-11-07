@@ -92,7 +92,7 @@ public struct Pages: View {
         self.pages = pages()
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
                 currentPage: $currentPage,
