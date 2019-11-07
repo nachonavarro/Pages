@@ -60,6 +60,7 @@ internal struct PageControl: UIViewRepresentable {
 
 }
 
+@available(iOS 13.0, *)
 class PageControlCoordinator: NSObject {
     var control: PageControl
 

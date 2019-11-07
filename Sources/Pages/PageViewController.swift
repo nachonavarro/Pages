@@ -51,6 +51,7 @@ struct PageViewController: UIViewControllerRepresentable {
 
 }
 
+@available(iOS 13.0, *)
 class PagesCoordinator: NSObject, UIPageViewControllerDataSource,
                              UIPageViewControllerDelegate {
     var parent: PageViewController
