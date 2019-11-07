@@ -23,14 +23,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if !os(macOS)
+
 import SwiftUI
+import UIKit
 
 /// A paging view that generates user-defined static pages.
-@available(iOS 13.0, OSX 10.15, *)
+@available(iOS 13.0, *)
 public struct Pages: View {
 
-    var pg: PageGeometry
+    @State var currentPage: Int = 0
     var pages: [AnyView]
+
+    var navigationOrientation: UIPageViewController.NavigationOrientation
+    var transitionStyle: UIPageViewController.TransitionStyle
+    var bounce: Bool
+    var wrap: Bool
+    var hasControl: Bool
+    var pageControl: UIPageControl? = nil
+    var controlAlignment: Alignment
 
     /**
     Creates the paging view that generates user-defined static pages.
@@ -49,30 +60,57 @@ public struct Pages: View {
        ```
 
        - Parameters:
-            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
-            - alignment: How to align the content of each page. Defaults to `.center`.
-            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
+           - items: The collection of data that will drive page creation.
+           - navigationOrientation: Whether to paginate horizontally or vertically.
+           - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
+           - bounce: Whether to bounce back when a user tries to scroll past all the pages.
+           - wrap: A flag indicating whether to wrap the pages circularly when the user scrolls past the beginning or end.
+           - hasControl: Whether to display a page control or not.
+           - control: A user defined page control.
+           - controlAlignment: What position to put the page control.
+           - alignment: How to align the content of each page. Defaults to `.center`.
+           - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
+           - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
-    public init(spacing: CGFloat = 0, insets: EdgeInsets = EdgeInsets(), bounce: Bool = true, alignment: Alignment = .center, @PagesBuilder pages: () -> [AnyView]) {
+    public init(
+        navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
+        transitionStyle: UIPageViewController.TransitionStyle = .scroll,
+        bounce: Bool = true,
+        wrap: Bool = false,
+        hasControl: Bool = true,
+        control: UIPageControl? = nil,
+        controlAlignment: Alignment = .bottom,
+        @PagesBuilder pages: () -> [AnyView]
+    ) {
+        self.navigationOrientation = navigationOrientation
+        self.transitionStyle = transitionStyle
+        self.bounce = bounce
+        self.wrap = wrap
+        self.hasControl = hasControl
+        self.pageControl = control
+        self.controlAlignment = controlAlignment
         self.pages = pages()
-        self.pg = PageGeometry(spacing: spacing, insets: insets, bounce: bounce, alignment: alignment, numPages: self.pages.count)
     }
 
-    public var body: some View {
-        PagingView(self.pg) {
-            ForEach(0..<self.pages.count) { i in
-                self.pages[i]
-                    .anchorPreference(key: WidthPreferenceKey.self, value: .bounds) {
-                       [$0]
-                    }
-                    .backgroundPreferenceValue(WidthPreferenceKey.self) { p in
-                        return GeometryReader { geometry -> Color in
-                            self.pg.pageWidth = geometry[p.last!].size.width
-                            return Color.clear
-                        }
-                    }
+    var body: some View {
+        ZStack(alignment: self.controlAlignment) {
+            PageViewController(
+                currentPage: $currentPage,
+                navigationOrientation: navigationOrientation,
+                transitionStyle: transitionStyle,
+                bounce: bounce,
+                wrap: wrap,
+                controllers: pages.map { UIHostingController(rootView: $0) }
+            )
+            if self.hasControl {
+                PageControl(
+                    numberOfPages: pages.count,
+                    pageControl: pageControl,
+                    currPage: $currentPage
+                ).padding()
             }
         }
     }
-
 }
+
+#endif

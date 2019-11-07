@@ -1,5 +1,5 @@
 //
-//  PagingView.swift
+//  ModelPages.swift
 //  Pages
 //
 //  Created by Nacho Navarro on 01/11/2019.
@@ -23,65 +23,103 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#if !os(macOS)
+
 import SwiftUI
+import UIKit
 
 /// A paging view that generates pages dynamically based on some user-defined data.
-@available(iOS 13.0, OSX 10.15, *)
+@available(iOS 13.0, *)
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
-    var pg: PageGeometry
-    var items: [Data.Element]
+    @State var currentPage: Int = 0
+
+    private var items: [Data.Element]
     private var template: (Int, Data.Element) -> Content
+    private var navigationOrientation: UIPageViewController.NavigationOrientation
+    private var transitionStyle: UIPageViewController.TransitionStyle
+    private var bounce: Bool
+    private var wrap: Bool
+    private var hasControl: Bool
+    private var pageControl: UIPageControl? = nil
+    private var controlAlignment: Alignment
 
     /**
-     Creates the paging view that generates pages dynamically based on some user-defined data.
+    Creates the paging view that generates pages dynamically based on some user-defined data.
 
-     `ModelPages` can be used as follows:
-        ```
-            struct Car: Identifiable {
-                var id = UUID()
-                var model: String
-            }
+    `ModelPages` can be used as follows:
+       ```
+           struct Car: {
+               var model: String
+           }
 
-            struct CarsView: View {
-                let cars = [Car(model: "Ford"), Car(model: "Ferrari")
+           struct CarsView: View {
+               let cars = [Car(model: "Ford"), Car(model: "Ferrari")
 
-                var body: some View {
-                    ModelPages(self.cars) { i, car in
-                        Text("Car is \(car.model)!")
-                    }
-                }
-            }
-        ```
+               var body: some View {
+                   ModelPages(self.cars) { i, car in
+                       Text("Car is \(car.model)!")
+                   }
+               }
+           }
+       ```
 
-        - Parameters:
-            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
-            - alignment: How to align the content of each page. Defaults to `.center`.
+       - Parameters:
             - items: The collection of data that will drive page creation.
+            - navigationOrientation: Whether to paginate horizontally or vertically.
+            - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
+            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
+            - wrap: A flag indicating whether to wrap the pages circularly when the user scrolls past the beginning or end.
+            - hasControl: Whether to display a page control or not.
+            - control: A user defined page control.
+            - controlAlignment: What position to put the page control.
+            - alignment: How to align the content of each page. Defaults to `.center`.
             - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
-        - Note: Each item in `items` has to conform to the `Identifiable` protocol.
-     */
-    public init(_ items: Data, spacing: CGFloat = 0, insets: EdgeInsets = EdgeInsets(), bounce: Bool = true, alignment: Alignment = .center, template: @escaping (Int, Data.Element) -> Content) {
+    */
+    public init(
+        _ items: Data,
+        navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
+        transitionStyle: UIPageViewController.TransitionStyle = .scroll,
+        bounce: Bool = true,
+        wrap: Bool = false,
+        hasControl: Bool = true,
+        control: UIPageControl? = nil,
+        controlAlignment: Alignment = .bottom,
+        template: @escaping (Int, Data.Element) -> Content
+    ) {
+        self.navigationOrientation = navigationOrientation
+        self.transitionStyle = transitionStyle
+        self.bounce = bounce
+        self.wrap = wrap
+        self.hasControl = hasControl
+        self.pageControl = control
+        self.controlAlignment = controlAlignment
         self.items = items.map { $0 }
         self.template = template
-        self.pg = PageGeometry(spacing: spacing, insets: insets, bounce: bounce, alignment: alignment, numPages: self.items.count)
     }
 
     public var body: some View {
-        PagingView(self.pg) {
-            ForEach(0..<self.items.count) { i in
-                self.template(i, self.items[i])
-                    .anchorPreference(key: WidthPreferenceKey.self, value: .bounds) {
-                       [$0]
-                    }
-                    .backgroundPreferenceValue(WidthPreferenceKey.self) { p in
-                        return GeometryReader { geometry -> Color in
-                            self.pg.pageWidth = geometry[p.last!].size.width
-                            return Color.clear
-                        }
-                    }
+        ZStack(alignment: self.controlAlignment) {
+            PageViewController(
+                currentPage: $currentPage,
+                navigationOrientation: navigationOrientation,
+                transitionStyle: transitionStyle,
+                bounce: bounce,
+                wrap: wrap,
+                controllers: (0..<items.count).map { i in
+                    UIHostingController(rootView: template(i, items[i]))
+                }
+            )
+            if self.hasControl {
+                PageControl(
+                    numberOfPages: items.count,
+                    pageControl: pageControl,
+                    currPage: $currentPage
+                ).padding()
             }
         }
     }
 
 }
+
+#endif
