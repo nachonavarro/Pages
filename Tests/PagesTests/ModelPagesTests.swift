@@ -22,7 +22,7 @@ final class ModelPagesTests: XCTestCase {
         let modelPages = ModelPages(cars) { i, car in
             Text("Car model: \(car.model)")
         }
-        XCTAssertEqual(modelPages.items.count, cars.count)
+        XCTAssertEqual(modelPages.items.count, cars.count + 2)
     }
 
 }
