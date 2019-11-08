@@ -1,4 +1,4 @@
-osx_image: xcode11
+osx_image: xcode11.2
 language: swift
 script:
   - xcodebuild test -destination 'name=iPhone 11' -scheme 'Pages'
