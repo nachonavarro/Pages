@@ -23,8 +23,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#if !os(macOS)
-
 import SwiftUI
 import UIKit
 
@@ -34,7 +32,8 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
 
     @State var currentPage: Int = 0
 
-    private var items: [Data.Element]
+    var items: [Data.Element]
+
     private var template: (Int, Data.Element) -> Content
     private var navigationOrientation: UIPageViewController.NavigationOrientation
     private var transitionStyle: UIPageViewController.TransitionStyle
@@ -120,5 +119,3 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     }
 
 }
-
-#endif
