@@ -180,7 +180,8 @@ Pages(
 ## FAQ
 
 - How do I set a background for the `Pages` view?
-  - Although one may be tempted to just stick a `.background(Color.blue)` on `Pages`, this won't have a desired effect because what we really should do is change the background of the pages themselves. The next temptation would be to then `.background(Color.blue)` on each page of our `Pages` view. Go ahead, try it:
+
+  - Although one may be tempted to just stick a `.background(Color.blue)` on `Pages`, this won't have a desired effect because what we really should do is change the background of the pages themselves. The next temptation would be to then set `.background(Color.blue)` on each page of our `Pages` view. Go ahead, try it:
   ```swift
     Pages {
         Text("Page 1")
@@ -189,7 +190,7 @@ Pages(
                 .background(Color.red)
     }
   ```
-  The problem is that by default views in SwiftUI do not fill the available space, so in fact as the view only needs a small space in the page, we are only setting the background of the view. There are many ways to occupy the *whole* space; the easiest is perhaps to use a `GeometryReader` as so:
+    The problem is that by default views in SwiftUI do not fill the available space, so in fact as the view only needs a small space in the page, we are only setting the background of the view. There are many ways to occupy the *whole* space; the easiest is perhaps to use a `GeometryReader` as so:
   ```swift
     Pages {
         GeometryReader { geometry in
@@ -199,6 +200,57 @@ Pages(
             Text("Page 2")
         }.background(Color.red)
     }
+  ```
+    Another way is by using `Spacer`:
+  ```swift
+      Pages {
+          VStack {
+              Spacer()
+              HStack {
+                  Text("Page 1")
+                  Spacer()
+              }
+          }
+          .background(Color.blue)
+          GeometryReader { geometry in
+              Text("Page 2")
+          }.background(Color.red)
+      }
+  ```
+  
+
+- How do I position my view to the left (`.leading`) or to the bottom right (`.bottomTrailing`)?
+
+  - For example, if we want to position our `Text` view on the bottom trailing corner, we use the `GeometryReader` trick again:
+  ```swift
+    Pages {
+            GeometryReader { geometry in
+                Text("Page 1")
+                    .frame(width: geometry.size.width,
+                           height: geometry.size.height,
+                           alignment: .bottomTrailing)
+            }
+            .background(Color.blue)
+            GeometryReader { geometry in
+                Text("Page 2")
+            }.background(Color.red)
+        }
+  ```
+    Or the `Spacer` trick:
+  ```swift
+      Pages {
+          VStack {
+              Spacer()
+              HStack {
+                  Spacer()
+                  Text("Page 1")
+              }
+          }
+          .background(Color.blue)
+          GeometryReader { geometry in
+              Text("Page 2")
+          }.background(Color.red)
+      }
   ```
 
 ## Demos
