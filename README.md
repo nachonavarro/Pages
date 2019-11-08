@@ -24,6 +24,9 @@
 Using Pages is as easy as:
 
 ```swift
+
+import Pages
+
 Pages {
     Text("A page here...")             // First page
     Text("...and a page there")        // Second page
@@ -44,6 +47,9 @@ Pages {
 One can also use Pages with dynamic content:
 
 ```swift
+
+import Pages
+
 struct Car {
     var model: String
 }
