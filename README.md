@@ -177,6 +177,30 @@ Pages(
 }
 ```
 
+## FAQ
+
+- How do I set a background for the `Pages` view?
+  - Although one may be tempted to just stick a `.background(Color.blue)` on `Pages`, this won't have a desired effect because what we really should do is change the background of the pages themselves. The next temptation would be to then `.background(Color.blue)` on each page of our `Pages` view. Go ahead, try it:
+  ```swift
+    Pages {
+        Text("Page 1")
+                .background(Color.red)
+        Text("Page 2")
+                .background(Color.red)
+    }
+  ```
+  The problem is that by default views in SwiftUI do not fill the available space, so in fact as the view only needs a small space in the page, we are only setting the background of the view. There are many ways to occupy the *whole* space; the easiest is perhaps to use a `GeometryReader` as so:
+  ```swift
+    Pages {
+        GeometryReader { geometry in
+            Text("Page 1")
+        }.background(Color.red)
+        GeometryReader { geometry in
+            Text("Page 2")
+        }.background(Color.red)
+    }
+  ```
+
 ## Demos
 
 All of the demos shown on the GIF can be checked out on the [demo repo](https://github.com/nachonavarro/PagesDemo).
