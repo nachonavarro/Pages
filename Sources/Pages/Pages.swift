@@ -60,7 +60,6 @@ public struct Pages: View {
        ```
 
        - Parameters:
-           - items: The collection of data that will drive page creation.
            - navigationOrientation: Whether to paginate horizontally or vertically.
            - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
@@ -68,8 +67,6 @@ public struct Pages: View {
            - hasControl: Whether to display a page control or not.
            - control: A user defined page control.
            - controlAlignment: What position to put the page control.
-           - alignment: How to align the content of each page. Defaults to `.center`.
-           - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
     public init(

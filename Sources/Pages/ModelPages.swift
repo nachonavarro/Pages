@@ -73,7 +73,6 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
             - hasControl: Whether to display a page control or not.
             - control: A user defined page control.
             - controlAlignment: What position to put the page control.
-            - alignment: How to align the content of each page. Defaults to `.center`.
             - template: A function that specifies how a page looks like given the position of the page and the item related to the page.
     */
     public init(
