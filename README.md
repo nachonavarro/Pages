@@ -70,6 +70,34 @@ ModelPages(cars) { index, car in
 }
 ```
 
+By default `Pages` keeps the state of the current page internally in the view, but if you need more control over the index of the current page (e.g. go to page 5 when the user taps a button on page 1), then
+initialize a state variable and pass it to `Pages`:
+
+```swift
+import Pages
+
+struct ContentView: View {
+
+    @State var index: Int = 0
+
+    var body: some View {
+        Pages(currentPage: $index) {
+            Text("Page 1")
+            Button(action: {
+                self.index = 3
+            }) {
+                Text("This button will go to page 4")
+            }
+            Text("Page 3")
+            Text("Page 4")
+        }
+        
+    }
+
+}
+
+```
+
 ### How it works
 
 `Pages` uses a [function builder](https://github.com/apple/swift-evolution/blob/9992cf3c11c2d5e0ea20bee98657d93902d5b174/proposals/XXXX-function-builders.md) to accomplish a SwiftUI
@@ -263,6 +291,9 @@ Pages is available using the [Swift Package Manager](https://swift.org/package-m
 
 Using Xcode 11, go to `File -> Swift Packages -> Add Package Dependency` and enter https://github.com/nachonavarro/Pages
 
+## Running the tests
+
+Once you select an iPhone destination on Xcode, press `⌘U` to run the tests. Alternatively run `xcodebuild test -destination 'name=iPhone 11' -scheme 'Pages'` on the terminal.
 
 ## Requirements
 

@@ -30,7 +30,7 @@ import UIKit
 @available(iOS 13.0, *)
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
-    @State var currentPage: Int = 0
+    @Binding var currentPage: Int
 
     var items: [Data.Element]
 
@@ -65,6 +65,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
 
        - Parameters:
             - items: The collection of data that will drive page creation.
+            - currentPage: A binding to give the user control over the current page index.
             - navigationOrientation: Whether to paginate horizontally or vertically.
             - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
             - bounce: Whether to bounce back when a user tries to scroll past all the pages.
@@ -76,6 +77,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     */
     public init(
         _ items: Data,
+        currentPage: Binding<Int>? = nil,
         navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
         transitionStyle: UIPageViewController.TransitionStyle = .scroll,
         bounce: Bool = true,
@@ -85,6 +87,11 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         controlAlignment: Alignment = .bottom,
         template: @escaping (Int, Data.Element) -> Content
     ) {
+        if let currentPage = currentPage {
+            self._currentPage = currentPage
+        } else {
+            self._currentPage = State(initialValue: 0).projectedValue
+        }
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
         self.bounce = bounce

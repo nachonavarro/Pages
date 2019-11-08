@@ -48,7 +48,6 @@ internal struct PageControl: UIViewRepresentable {
                 action: #selector(Coordinator.updateCurrentPage(sender:)),
                 for: .valueChanged
             )
-            print("in control", self.$currPage)
             return control
         }
     }

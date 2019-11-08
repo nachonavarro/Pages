@@ -30,7 +30,7 @@ import UIKit
 @available(iOS 13.0, *)
 public struct Pages: View {
 
-    @State var currentPage: Int = 0
+    @Binding var currentPage: Int
     var pages: [AnyView]
 
     var navigationOrientation: UIPageViewController.NavigationOrientation
@@ -58,6 +58,7 @@ public struct Pages: View {
        ```
 
        - Parameters:
+           - currentPage: A binding to give the user control over the current page index.
            - navigationOrientation: Whether to paginate horizontally or vertically.
            - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
@@ -68,6 +69,7 @@ public struct Pages: View {
            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
     public init(
+        currentPage: Binding<Int>? = nil,
         navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
         transitionStyle: UIPageViewController.TransitionStyle = .scroll,
         bounce: Bool = true,
@@ -77,6 +79,11 @@ public struct Pages: View {
         controlAlignment: Alignment = .bottom,
         @PagesBuilder pages: () -> [AnyView]
     ) {
+        if let currentPage = currentPage {
+            self._currentPage = currentPage
+        } else {
+            self._currentPage = State(initialValue: 0).projectedValue
+        }
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
         self.bounce = bounce
