@@ -62,7 +62,7 @@ ModelPages(cars) { index, car in
 ### How it works
 
 `Pages` uses a [function builder](https://github.com/apple/swift-evolution/blob/9992cf3c11c2d5e0ea20bee98657d93902d5b174/proposals/XXXX-function-builders.md) to accomplish a SwiftUI
-feel to using a `UIPageViewController` under the hood. As in `VStack` or `HStack`, the current limit of pages to
+feel while using a `UIPageViewController` under the hood. As in `VStack` or `HStack`, the current limit of pages to
 add in a static way using the `Pages` view is 10. If more are needed use a `ModelPages` instead. The `Pages` view will take up all the available space it is given.
 
 > Note: The `Pages` view needs more than one page. Otherwise the compiler treats what's inside `Pages` as [a closure](https://stackoverflow.com/questions/58409839/function-builder-not-working-when-only-one-value).
@@ -166,19 +166,16 @@ Pages(
 }
 ```
 
-- `controlAlignment`: Where to put the page control inside `Pages`. Default is `.bottom`.
+## Demos
 
-```swift
-Pages(
-    navigationOrientation: .vertical,
-    transitionStyle: .pageCurl,
-    bounce: false,
-    wrap: true,
-    controlAlignment: .topLeading
-) {
-    Text("Page 1")
-    Text("Page 2")
-}
-```
+All of the demos shown on the GIF can be checked out on the [demo repo](https://github.com/nachonavarro/PagesDemo).
+
+## Installation
+
+Pages is available using the [Swift Package Manager](https://swift.org/package-manager/):
+
+Using Xcode 11, go to `File -> Swift Packages -> Add Package Dependency` and enter 
+https://github.com/nachonavarro/Pages
+
 
 
