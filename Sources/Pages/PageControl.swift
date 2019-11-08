@@ -28,6 +28,7 @@
 import SwiftUI
 import UIKit
 
+/// The page control for the page view.
 @available(iOS 13.0, *)
 internal struct PageControl: UIViewRepresentable {
     var numberOfPages: Int

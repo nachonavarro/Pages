@@ -10,6 +10,7 @@
 import SwiftUI
 import UIKit
 
+/// The UIPageViewController in charge of the pages.
 @available(iOS 13.0, *)
 struct PageViewController: UIViewControllerRepresentable {
 
