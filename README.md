@@ -177,4 +177,19 @@ Pages is available using the [Swift Package Manager](https://swift.org/package-m
 Using Xcode 11, go to `File -> Swift Packages -> Add Package Dependency` and enter https://github.com/nachonavarro/Pages
 
 
+## Requirements
 
+- iOS 13.0+
+- Xcode 11.0+
+
+## Contributing
+
+Feel free to contribute to `Pages`!
+
+1. Fork `Pages`
+2. Create your feature branch with your changes
+3. Create pull request
+
+## License
+
+`Pages` is available under the MIT license. See the [LICENSE](https://github.com/nachonavarro/Pages/blob/master/LICENSE) for more info.
