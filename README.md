@@ -193,6 +193,12 @@ Using Xcode 11, go to `File -> Swift Packages -> Add Package Dependency` and ent
 - iOS 13.0+
 - Xcode 11.0+
 
+## TODOs
+
+- Add unit and UI tests.
+- Improve function builder to include conditional clauses.
+- Merge `ModelPages` and `Pages` into one common view?
+
 ## Contributing
 
 Feel free to contribute to `Pages`!
