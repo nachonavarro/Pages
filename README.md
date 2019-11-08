@@ -7,6 +7,7 @@
     <strong><a href="#installation">Installation</a></strong>
 </p>
 <p align="center">
+    <img src="https://api.travis-ci.com/nachonavarro/Pages.svg?branch=master" alt="CI" />
     <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platforms" />
     <img src="https://img.shields.io/badge/Swift-5-orange.svg" />
     <a href="https://github.com/nachonavarro/Pages/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
