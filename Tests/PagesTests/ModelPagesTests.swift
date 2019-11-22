@@ -19,7 +19,7 @@ final class ModelPagesTests: XCTestCase {
     let cars = [Car(model: "Ford"), Car(model: "Ferrari")]
 
     func testDynamicPagesCount() {
-        let modelPages = ModelPages(cars) { i, car in
+        let modelPages = ModelPages(cars, currentPage: .constant(0)) { i, car in
             Text("Car model: \(car.model)")
         }
         XCTAssertEqual(modelPages.items.count, cars.count)

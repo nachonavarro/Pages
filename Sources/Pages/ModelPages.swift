@@ -31,9 +31,6 @@ import UIKit
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
     @Binding var currentPage: Int
-    @State var defaultIndex: Int = 0
-    private var usesDefaultIndex: Bool = false
-
     var items: [Data.Element]
 
     private var template: (Int, Data.Element) -> Content
@@ -55,10 +52,12 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
            }
 
            struct CarsView: View {
+
+               @State var index: Int = 0
                let cars = [Car(model: "Ford"), Car(model: "Ferrari")
 
                var body: some View {
-                   ModelPages(self.cars) { i, car in
+                   ModelPages(self.cars, currentPage: $index) { i, car in
                        Text("Car is \(car.model)!")
                    }
                }
@@ -79,7 +78,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     */
     public init(
         _ items: Data,
-        currentPage: Binding<Int>? = nil,
+        currentPage: Binding<Int>,
         navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
         transitionStyle: UIPageViewController.TransitionStyle = .scroll,
         bounce: Bool = true,
@@ -89,12 +88,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         controlAlignment: Alignment = .bottom,
         template: @escaping (Int, Data.Element) -> Content
     ) {
-        if let userIndex = currentPage {
-            self._currentPage = userIndex
-        } else {
-            self._currentPage = .constant(0) // Dummy value, we don't need it.
-            self.usesDefaultIndex = true
-        }
+        self._currentPage = currentPage
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
         self.bounce = bounce
@@ -109,7 +103,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
-                currentPage: self.usesDefaultIndex ? $defaultIndex : $currentPage,
+                currentPage: $currentPage,
                 navigationOrientation: navigationOrientation,
                 transitionStyle: transitionStyle,
                 bounce: bounce,
@@ -122,7 +116,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
                 PageControl(
                     numberOfPages: items.count,
                     pageControl: pageControl,
-                    currPage: self.usesDefaultIndex ? $defaultIndex : $currentPage
+                    currentPage: $currentPage
                 ).padding()
             }
         }

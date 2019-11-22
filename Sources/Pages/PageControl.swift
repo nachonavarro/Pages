@@ -31,7 +31,7 @@ import UIKit
 internal struct PageControl: UIViewRepresentable {
     var numberOfPages: Int
     var pageControl: UIPageControl?
-    @Binding var currPage: Int
+    @Binding var currentPage: Int
 
     func makeCoordinator() -> PageControlCoordinator {
         PageControlCoordinator(self)
@@ -53,7 +53,7 @@ internal struct PageControl: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UIPageControl, context: Context) {
-        uiView.currentPage = self.currPage
+        uiView.currentPage = self.currentPage
     }
 
 }
@@ -68,7 +68,7 @@ class PageControlCoordinator: NSObject {
 
     @objc
     func updateCurrentPage(sender: UIPageControl) {
-        control.currPage = sender.currentPage
+        control.currentPage = sender.currentPage
     }
 }
 

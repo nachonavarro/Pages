@@ -33,19 +33,17 @@ Using Pages is as easy as:
 
 import Pages
 
-Pages {
-    Text("A page here...")             // First page
-    Text("...and a page there")        // Second page
-    Circle()                           // Third page
-        .fill(Color.blue)
-        .frame(width: 50, height: 50)
-    VStack {                           // Fourth page
-        Capsule()
-            .fill(Color.yellow)
-            .frame(width: 100, height: 300)
-        Text("A capsule on the fourth page")
-            .font(.title)
-            .padding(.top)
+struct WelcomeView: View {
+
+    @State var index: Int = 0
+
+    var body: some View {
+        Pages(currentPage: $index) {
+             Text("Welcome! This is Page 1")
+             Text("This is Page 2")
+             Text("...and this is Page 3")
+             Circle() // The 4th page is a Circle
+        }
     }
 }
 ```
@@ -60,43 +58,20 @@ struct Car {
     var model: String
 }
 
-let cars = [Car(model: "Ford"), Car(model: "Ferrari")]
-
-ModelPages(cars) { index, car in
-    Text("The \(index) car is a \(car.model)")
-        .padding(50)
-        .foregroundColor(.white)
-        .background(Color.blue)
-        .cornerRadius(10)
-}
-```
-
-By default `Pages` keeps the state of the current page internally in the view, but if you need more control over the index of the current page (e.g. go to page 5 when the user taps a button on page 1), then
-initialize a state variable and pass it to `Pages`:
-
-```swift
-import Pages
-
-struct ContentView: View {
-
+struct CarsView: View {
+    let cars = [Car(model: "Ford"), Car(model: "Ferrari")]
     @State var index: Int = 0
-
+    
     var body: some View {
-        Pages(currentPage: $index) {
-            Text("Page 1")
-            Button(action: {
-                self.index = 3
-            }) {
-                Text("This button will go to page 4")
-            }
-            Text("Page 3")
-            Text("Page 4")
+        ModelPages(cars) { index, car in
+            Text("The \(index) car is a \(car.model)")
+                .padding(50)
+                .foregroundColor(.white)
+                .background(Color.blue)
+                .cornerRadius(10)
         }
-        
     }
-
 }
-
 ```
 
 ### How it works

@@ -31,8 +31,6 @@ import UIKit
 public struct Pages: View {
 
     @Binding var currentPage: Int
-    @State var defaultIndex: Int = 0
-    private var usesDefaultIndex: Bool = false
     var pages: [AnyView]
 
     var navigationOrientation: UIPageViewController.NavigationOrientation
@@ -49,8 +47,11 @@ public struct Pages: View {
     `Pages` can be used as follows:
        ```
            struct WelcomeView: View {
+
+               @State var index: Int = 0
+
                var body: some View {
-                   Pages {
+                   Pages(currentPage: $index) {
                         Text("Welcome! This is Page 1")
                         Text("This is Page 2")
                         Text("...and this is Page 3")
@@ -60,7 +61,6 @@ public struct Pages: View {
        ```
 
        - Parameters:
-           - currentPage: A binding to give the user control over the current page index.
            - navigationOrientation: Whether to paginate horizontally or vertically.
            - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
            - bounce: Whether to bounce back when a user tries to scroll past all the pages.
@@ -71,7 +71,7 @@ public struct Pages: View {
            - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
     */
     public init(
-        currentPage: Binding<Int>? = nil,
+        currentPage: Binding<Int>,
         navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
         transitionStyle: UIPageViewController.TransitionStyle = .scroll,
         bounce: Bool = true,
@@ -81,12 +81,6 @@ public struct Pages: View {
         controlAlignment: Alignment = .bottom,
         @PagesBuilder pages: () -> [AnyView]
     ) {
-        if let userIndex = currentPage {
-            self._currentPage = userIndex
-        } else {
-            self._currentPage = .constant(0) // Dummy value, we don't need it.
-            self.usesDefaultIndex = true
-        }
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
         self.bounce = bounce
@@ -95,12 +89,13 @@ public struct Pages: View {
         self.pageControl = control
         self.controlAlignment = controlAlignment
         self.pages = pages()
+        self._currentPage = currentPage
     }
 
     public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
-                currentPage: self.usesDefaultIndex ? $defaultIndex : $currentPage,
+                currentPage: $currentPage,
                 navigationOrientation: navigationOrientation,
                 transitionStyle: transitionStyle,
                 bounce: bounce,
@@ -113,7 +108,7 @@ public struct Pages: View {
                 PageControl(
                     numberOfPages: pages.count,
                     pageControl: pageControl,
-                    currPage: self.usesDefaultIndex ? $defaultIndex : $currentPage
+                    currentPage: $currentPage
                 ).padding()
             }
         }
