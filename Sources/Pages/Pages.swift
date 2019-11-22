@@ -101,7 +101,9 @@ public struct Pages: View {
                 bounce: bounce,
                 wrap: wrap,
                 controllers: pages.map {
-                    UIHostingController(rootView: $0)
+                    let h = UIHostingController(rootView: $0)
+                    h.view.backgroundColor = .clear
+                    return h
                 }
             )
             if self.hasControl {
