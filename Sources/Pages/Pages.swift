@@ -31,6 +31,8 @@ import UIKit
 public struct Pages: View {
 
     @Binding var currentPage: Int
+    @State var defaultIndex: Int = 0
+    private var usesDefaultIndex: Bool = false
     var pages: [AnyView]
 
     var navigationOrientation: UIPageViewController.NavigationOrientation
@@ -79,10 +81,11 @@ public struct Pages: View {
         controlAlignment: Alignment = .bottom,
         @PagesBuilder pages: () -> [AnyView]
     ) {
-        if let currentPage = currentPage {
-            self._currentPage = currentPage
+        if let userIndex = currentPage {
+            self._currentPage = userIndex
         } else {
-            self._currentPage = State(initialValue: 0).projectedValue
+            self._currentPage = .constant(0) // Dummy value, we don't need it.
+            self.usesDefaultIndex = true
         }
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
@@ -97,7 +100,7 @@ public struct Pages: View {
     public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
-                currentPage: $currentPage,
+                currentPage: self.usesDefaultIndex ? $defaultIndex : $currentPage,
                 navigationOrientation: navigationOrientation,
                 transitionStyle: transitionStyle,
                 bounce: bounce,
@@ -112,7 +115,7 @@ public struct Pages: View {
                 PageControl(
                     numberOfPages: pages.count,
                     pageControl: pageControl,
-                    currPage: $currentPage
+                    currPage: self.usesDefaultIndex ? $defaultIndex : $currentPage
                 ).padding()
             }
         }

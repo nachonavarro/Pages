@@ -31,6 +31,8 @@ import UIKit
 public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection, Content: View {
 
     @Binding var currentPage: Int
+    @State var defaultIndex: Int = 0
+    private var usesDefaultIndex: Bool = false
 
     var items: [Data.Element]
 
@@ -87,10 +89,11 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         controlAlignment: Alignment = .bottom,
         template: @escaping (Int, Data.Element) -> Content
     ) {
-        if let currentPage = currentPage {
-            self._currentPage = currentPage
+        if let userIndex = currentPage {
+            self._currentPage = userIndex
         } else {
-            self._currentPage = State(initialValue: 0).projectedValue
+            self._currentPage = .constant(0) // Dummy value, we don't need it.
+            self.usesDefaultIndex = true
         }
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
@@ -106,7 +109,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
-                currentPage: $currentPage,
+                currentPage: self.usesDefaultIndex ? $defaultIndex : $currentPage,
                 navigationOrientation: navigationOrientation,
                 transitionStyle: transitionStyle,
                 bounce: bounce,
@@ -121,7 +124,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
                 PageControl(
                     numberOfPages: items.count,
                     pageControl: pageControl,
-                    currPage: $currentPage
+                    currPage: self.usesDefaultIndex ? $defaultIndex : $currentPage
                 ).padding()
             }
         }
