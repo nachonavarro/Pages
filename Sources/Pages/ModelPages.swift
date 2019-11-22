@@ -115,9 +115,7 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
                 bounce: bounce,
                 wrap: wrap,
                 controllers: (0..<items.count).map { i in
-                    let h = UIHostingController(rootView: template(i, items[i]))
-                    h.view.backgroundColor = .clear
-                    return h
+                    UIHostingController(rootView: template(i, items[i]))
                 }
             )
             if self.hasControl {
