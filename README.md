@@ -187,34 +187,34 @@ Pages(
 
   - For example, if we want to position our `Text` view on the bottom trailing corner, we can use a `GeometryReader` to fill the available space:
   ```swift
-    Pages {
-        GeometryReader { geometry in
-            Text("Page 1")
-                .frame(width: geometry.size.width,
-                       height: geometry.size.height,
-                       alignment: .bottomTrailing)
-        }
-        .background(Color.blue)
-        GeometryReader { geometry in
-            Text("Page 2")
-        }.background(Color.red)
-    }
+  Pages(currentPage: $index) {
+      GeometryReader { geometry in
+          Text("Page 1")
+              .frame(width: geometry.size.width,
+                     height: geometry.size.height,
+                     alignment: .bottomTrailing)
+      }
+      .background(Color.blue)
+      GeometryReader { geometry in
+          Text("Page 2")
+      }.background(Color.red)
+  }
   ```
     Or the `Spacer` trick:
   ```swift
-      Pages {
-          VStack {
+  Pages(currentPage: $index) {
+      VStack {
+          Spacer()
+          HStack {
               Spacer()
-              HStack {
-                  Spacer()
-                  Text("Page 1")
-              }
+              Text("Page 1")
           }
-          .background(Color.blue)
-          GeometryReader { geometry in
-              Text("Page 2")
-          }.background(Color.red)
       }
+      .background(Color.blue)
+      GeometryReader { geometry in
+          Text("Page 2")
+      }.background(Color.red)
+  }
   ```
 
 ## Demos
