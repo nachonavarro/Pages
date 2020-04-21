@@ -8,6 +8,9 @@
 build/
 DerivedData/
 
+## Include Demo for local testing
+Demo/
+
 ## Various settings
 *.pbxuser
 !default.pbxuser

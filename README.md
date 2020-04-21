@@ -63,8 +63,8 @@ struct CarsView: View {
     @State var index: Int = 0
     
     var body: some View {
-        ModelPages(cars) { index, car in
-            Text("The \(index) car is a \(car.model)")
+        ModelPages(cars, currentPage: $index) { pageIndex, car in
+            Text("The \(pageIndex) car is a \(car.model)")
                 .padding(50)
                 .foregroundColor(.white)
                 .background(Color.blue)

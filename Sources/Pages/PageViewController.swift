@@ -62,9 +62,14 @@ struct PageViewController: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ pageViewController: UIPageViewController, context: Context) {
+        let previousPage = context.coordinator.parent.currentPage
         context.coordinator.parent = self
+        print("Current page is \(previousPage), going to \(currentPage)")
+
         pageViewController.setViewControllers(
-            [controllers[currentPage]], direction: .forward, animated: false
+            [controllers[currentPage]],
+            direction: currentPage - previousPage > 0 ? .forward : .reverse,
+            animated: true
         )
     }
 
@@ -106,8 +111,8 @@ class PagesCoordinator: NSObject, UIPageViewControllerDataSource,
         transitionCompleted completed: Bool
     ) {
         if completed,
-            let visibleViewController = pageViewController.viewControllers?.first,
-            let index = parent.controllers.firstIndex(of: visibleViewController) {
+        let visibleViewController = pageViewController.viewControllers?.first,
+        let index = parent.controllers.firstIndex(of: visibleViewController) {
             parent.currentPage = index
         }
     }
@@ -144,4 +149,3 @@ extension PagesCoordinator: UIScrollViewDelegate {
         }
     }
 }
-
