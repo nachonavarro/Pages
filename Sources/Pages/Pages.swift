@@ -81,8 +81,8 @@ public struct Pages: View {
         hasControl: Bool = true,
         control: UIPageControl? = nil,
         controlAlignment: Alignment = .bottom,
-        currentTintColor: UIColor = .gray,
-        tintColor: UIColor = .white,
+        currentTintColor: UIColor = .white,
+        tintColor: UIColor = .gray,
         @PagesBuilder pages: () -> [AnyView]
                       
     ) {

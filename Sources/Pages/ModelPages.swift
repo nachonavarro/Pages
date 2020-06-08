@@ -88,8 +88,8 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         hasControl: Bool = true,
         control: UIPageControl? = nil,
         controlAlignment: Alignment = .bottom,
-        currentTintColor: UIColor = .gray,
-        tintColor: UIColor = .white,
+        currentTintColor: UIColor = .white,
+        tintColor: UIColor = .gray,
         template: @escaping (Int, Data.Element) -> Content
         
     ) {
