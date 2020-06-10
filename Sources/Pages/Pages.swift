@@ -29,10 +29,10 @@ import UIKit
 /// A paging view that generates user-defined static pages.
 @available(iOS 13.0, *)
 public struct Pages: View {
-
+    
     @Binding var currentPage: Int
     var pages: [AnyView]
-
+    
     var navigationOrientation: UIPageViewController.NavigationOrientation
     var transitionStyle: UIPageViewController.TransitionStyle
     var bounce: Bool
@@ -40,36 +40,38 @@ public struct Pages: View {
     var hasControl: Bool
     var pageControl: UIPageControl? = nil
     var controlAlignment: Alignment
-
+     var currentTintColor: UIColor
+     var tintColor: UIColor
+    
     /**
-    Creates the paging view that generates user-defined static pages.
-
-    `Pages` can be used as follows:
-       ```
-           struct WelcomeView: View {
-
-               @State var index: Int = 0
-
-               var body: some View {
-                   Pages(currentPage: $index) {
-                        Text("Welcome! This is Page 1")
-                        Text("This is Page 2")
-                        Text("...and this is Page 3")
-                   }
-               }
-           }
-       ```
-
-       - Parameters:
-           - navigationOrientation: Whether to paginate horizontally or vertically.
-           - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
-           - bounce: Whether to bounce back when a user tries to scroll past all the pages.
-           - wrap: A flag indicating whether to wrap the pages circularly when the user scrolls past the beginning or end.
-           - hasControl: Whether to display a page control or not.
-           - control: A user defined page control.
-           - controlAlignment: What position to put the page control.
-           - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
-    */
+     Creates the paging view that generates user-defined static pages.
+     
+     `Pages` can be used as follows:
+     ```
+     struct WelcomeView: View {
+     
+     @State var index: Int = 0
+     
+     var body: some View {
+     Pages(currentPage: $index) {
+     Text("Welcome! This is Page 1")
+     Text("This is Page 2")
+     Text("...and this is Page 3")
+     }
+     }
+     }
+     ```
+     
+     - Parameters:
+     - navigationOrientation: Whether to paginate horizontally or vertically.
+     - transitionStyle: Whether to perform a page curl or a scroll effect on page turn.
+     - bounce: Whether to bounce back when a user tries to scroll past all the pages.
+     - wrap: A flag indicating whether to wrap the pages circularly when the user scrolls past the beginning or end.
+     - hasControl: Whether to display a page control or not.
+     - control: A user defined page control.
+     - controlAlignment: What position to put the page control.
+     - pages: A function builder `PagesBuilder` that will put the views defined by the user on a list.
+     */
     public init(
         currentPage: Binding<Int>,
         navigationOrientation: UIPageViewController.NavigationOrientation = .horizontal,
@@ -79,7 +81,10 @@ public struct Pages: View {
         hasControl: Bool = true,
         control: UIPageControl? = nil,
         controlAlignment: Alignment = .bottom,
+        currentTintColor: UIColor = .white,
+        tintColor: UIColor = .gray,
         @PagesBuilder pages: () -> [AnyView]
+                      
     ) {
         self.navigationOrientation = navigationOrientation
         self.transitionStyle = transitionStyle
@@ -88,10 +93,13 @@ public struct Pages: View {
         self.hasControl = hasControl
         self.pageControl = control
         self.controlAlignment = controlAlignment
+        self.currentTintColor = currentTintColor
+        self.tintColor = tintColor
         self.pages = pages()
         self._currentPage = currentPage
+        
     }
-
+    
     public var body: some View {
         ZStack(alignment: self.controlAlignment) {
             PageViewController(
@@ -110,6 +118,8 @@ public struct Pages: View {
                 PageControl(
                     numberOfPages: pages.count,
                     pageControl: pageControl,
+                    currentPageIndicatorTintColor: currentTintColor,
+                    pageIndicatorTintColor: tintColor,
                     currentPage: $currentPage
                 ).padding()
             }

@@ -31,6 +31,8 @@ import UIKit
 internal struct PageControl: UIViewRepresentable {
     var numberOfPages: Int
     var pageControl: UIPageControl?
+    var currentPageIndicatorTintColor: UIColor
+    var pageIndicatorTintColor: UIColor
     @Binding var currentPage: Int
 
     func makeCoordinator() -> PageControlCoordinator {
@@ -43,6 +45,8 @@ internal struct PageControl: UIViewRepresentable {
         } else {
             let control = UIPageControl()
             control.numberOfPages = numberOfPages
+            control.currentPageIndicatorTintColor = currentPageIndicatorTintColor
+            control.pageIndicatorTintColor = pageIndicatorTintColor
             control.addTarget(
                 context.coordinator,
                 action: #selector(Coordinator.updateCurrentPage(sender:)),
