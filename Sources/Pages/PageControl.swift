@@ -54,6 +54,7 @@ internal struct PageControl: UIViewRepresentable {
 
     func updateUIView(_ uiView: UIPageControl, context: Context) {
         uiView.currentPage = self.currentPage
+        uiView.numberOfPages = self.numberOfPages
     }
 
 }
