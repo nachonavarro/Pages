@@ -41,6 +41,8 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
     private var hasControl: Bool
     private var pageControl: UIPageControl? = nil
     private var controlAlignment: Alignment
+    private var currentTintColor: UIColor
+    private var tintColor: UIColor
 
     /**
     Creates the paging view that generates pages dynamically based on some user-defined data.
@@ -86,7 +88,10 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         hasControl: Bool = true,
         control: UIPageControl? = nil,
         controlAlignment: Alignment = .bottom,
+        currentTintColor: UIColor = .white,
+        tintColor: UIColor = .gray,
         template: @escaping (Int, Data.Element) -> Content
+        
     ) {
         self._currentPage = currentPage
         self.navigationOrientation = navigationOrientation
@@ -98,6 +103,8 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
         self.controlAlignment = controlAlignment
         self.items = items.map { $0 }
         self.template = template
+        self.currentTintColor = currentTintColor
+        self.tintColor = tintColor
     }
 
     public var body: some View {
@@ -118,6 +125,8 @@ public struct ModelPages<Data, Content>: View where Data: RandomAccessCollection
                 PageControl(
                     numberOfPages: items.count,
                     pageControl: pageControl,
+                    currentPageIndicatorTintColor: currentTintColor,
+                    pageIndicatorTintColor: tintColor,
                     currentPage: $currentPage
                 ).padding()
             }
